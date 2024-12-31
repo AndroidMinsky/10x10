@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 const useSharedState = (key, initialValue) => {
   const [value, setValue] = useState(() => {
     const stored = localStorage.getItem(key);
@@ -31,11 +32,12 @@ const useSharedState = (key, initialValue) => {
   return [value, setSharedValue];
 };
 
-const IndexPage = ({ gameState, gameQuestion }) => {
+const IndexPage = ({ gameState, gameQuestion, setCurrentPath }) => {
 
   return (
     <div className="min-h-screen bg-purple-900 p-4 text-black">
       {/* Header */}
+      <button className="text-purple-900" onClick={() => setCurrentPath('/admin')}>Admin</button>
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <div className="bg-black/50 text-white px-4 py-1 rounded-lg font-bold">{gameState.team1Name}</div>
@@ -488,11 +490,11 @@ const App = () => {
     }
   );
   
-  const [currentPath] = useState(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   return currentPath === '/admin' 
     ? <AdminPage gameState={gameState} setGameState={setGameState} gameQuestion={gameQuestion} setGameQuestion={setGameQuestion} />
-    : <IndexPage gameState={gameState} gameQuestion={gameQuestion} />;
+    : <IndexPage gameState={gameState} gameQuestion={gameQuestion} setCurrentPath={setCurrentPath} />;
 };
 
 export default App;
